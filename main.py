@@ -5,6 +5,6 @@ from app.db.db import engine
 
 Base.metadata.create_all(engine)
 
-app = FastAPI(title="E - COMMERCE")
+app = FastAPI()
 
 app.include_router(router)
