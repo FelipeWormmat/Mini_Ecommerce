@@ -1,10 +1,13 @@
 from os import name
 from sqlalchemy import Column
-from sqlalchemy.sql.sqltypes import Boolean, Float, Integer, String, TinyInteger
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import mode
+from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql.sqltypes import Boolean, Float, Integer, String, SmallInteger
 from app.db.db import Base
 
-class Product(Base):
 
+class Product(Base):
     __tablename__ = 'products'
 
     id = Column(Integer, primary_key=True)
@@ -13,25 +16,38 @@ class Product(Base):
     technical_details = Column(String(255))
     image = Column(String(255))
     visible = Column(Boolean, default=True)
+    category_id = Column(Integer, ForeignKey('categories.id'))
+    #category = relationship(Category)
+    supplier_id = Column(Integer, ForeignKey('suppliers.id'))
+    #supplier = relationship(Supplier)
 
 class Category(Base):
-
-    __tablename__ = 'category'
+    __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
 
 class Supplier(Base):
-
-    __tablename__ = 'supplier'
+    __tablename__ = 'suppliers'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
 
 class PaymentMethods(Base):
-
     __tablename__ = 'paymentmethods'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
-    enabled = Column(TinyInteger())
+    enabled = Column(SmallInteger())
+
+class ProductDiscount(Base):
+    __tablename__ = 'productdiscounts'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float(10,2))
+    payment_method_id = Column(Integer)
+    product_id = Column(Integer, ForeignKey(Product.id))
+    mode = Column(String(45))
+    product = relationship(Product)
+    payment_method_id = Column(Integer, ForeignKey(PaymentMethods.id))
+    payment_method = relationship(PaymentMethods)

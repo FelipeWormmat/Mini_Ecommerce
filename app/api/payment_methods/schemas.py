@@ -1,13 +1,10 @@
 from pydantic import BaseModel
 
-
-class PaymentSchema(BaseModel):
-    enabled: int
+class PaymentMethodSchema(BaseModel):
     name: str
+    enabled: int
 
-
-class ShowPaymentSchema(PaymentSchema):
+class ShowPaymentMethodSchema(PaymentMethodSchema):
     id: int
-    
     class Config:
         orm_mode = True
