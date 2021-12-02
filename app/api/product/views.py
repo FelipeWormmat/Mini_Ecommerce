@@ -27,6 +27,11 @@ def update(id: int, product: ProductSchema, db: Session = Depends(get_db)):
     query.update(product.dict())
     db.commit()
 
+@router.put('/{id}/category/{id_category}', status_code=status.HTTP_201_CREATED)
+def category_to_product(id: int, id_category: int, db: Session = Depends(get_db)):
+    query = db.query(Product).filter_by(id=id)
+    query.update({"category_id":id_category})
+    db.commit()
 
 @router.get('/{id}', response_model=ShowProductSchema)
 def show(id: int, db: Session = Depends(get_db)):
