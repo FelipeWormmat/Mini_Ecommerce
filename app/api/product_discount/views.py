@@ -7,7 +7,7 @@ from app.api.product_discount.schemas import ProductDiscountSchema, ShowProductD
 
 from app.db.db import get_db
 from app.models.models import ProductDiscount, PaymentMethods, Product
-from .schemas import ProductDiscountsSchema
+from .schemas import ProductDiscountSchema
 
 router = APIRouter()
 
