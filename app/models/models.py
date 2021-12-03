@@ -3,7 +3,7 @@ from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import mode
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Boolean, Float, Integer, String, SmallInteger
+from sqlalchemy.sql.sqltypes import Boolean, Float, Integer, String, SmallInteger, DateTime
 from app.db.db import Base
 
 
@@ -51,3 +51,13 @@ class ProductDiscount(Base):
     product = relationship(Product)
     payment_method_id = Column(Integer, ForeignKey(PaymentMethods.id))
     payment_method = relationship(PaymentMethods)
+
+class Coupons(Base):
+    __tablename__ = 'coupons'
+    
+    id = Column(Integer, primary_key=True)
+    code = Column(String(10))
+    expire_at = Column(DateTime)
+    limit = Column(Integer)
+    type = Column(String(15))
+    value = Column(Float)
