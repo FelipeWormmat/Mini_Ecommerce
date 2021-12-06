@@ -7,6 +7,11 @@ from .product_discount.views import router as product_discount_router
 from .coupons.views import router as coupons_router
 from .adress.views import router as adress_router
 from .customers.views import router as customer_router
+from .auth.views import router as auth_router
+from .user.views import router as user_router
+
+from .seed import router as seed_router
+
 
 router = APIRouter()
 
@@ -18,3 +23,8 @@ router.include_router(product_discount_router, prefix='/prodcuctdiscounts', tags
 router.include_router(coupons_router, prefix='/coupons', tags=['coupons'])
 router.include_router(adress_router, prefix='/adress', tags=['adress'])
 router.include_router(customer_router, prefix='/customer', tags=['customer'])
+
+
+router.include_router(seed_router, tags=['seed'])
+router.include_router(user_router, prefix='/users', tags=['users'])
+router.include_router(auth_router, prefix='/auth', tags=['auth'])
