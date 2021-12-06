@@ -3,6 +3,7 @@ from fastapi import APIRouter, status
 from fastapi.params import Depends
 from app.api.adress.schemas import AdressSchema, ShowAdressSchema
 from sqlalchemy.orm import Session
+from app.api.repositories.adress_repository import AddressRepository
 from app.db.db import get_db
 from app.models.models import Address
 
@@ -31,3 +32,7 @@ def update(id: int, adress: AdressSchema, db: Session = Depends(get_db)):
 @router.get('/{id}', response_model=ShowAdressSchema)
 def show(id: int, db: Session = Depends(get_db)):
     return db.query(Address).filter_by(id=id).first()
+
+@router.delete('/{id}')
+def delete(id: int, repository: AddressRepository = Depends()):
+    repository.delete(id)
