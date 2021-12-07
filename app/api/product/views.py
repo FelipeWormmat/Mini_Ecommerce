@@ -3,7 +3,7 @@ from fastapi import APIRouter, status
 from fastapi.params import Depends
 from .schemas import ProductSchema, ShowProductSchema
 from sqlalchemy.orm import Session
-from app.api.services.auth_service import get_user, only_admin
+from app.services.auth_service import get_user, only_admin
 from app.models.models import Product
 from fastapi.exceptions import HTTPException
 from app.api.repositories.product_repository import ProductRepository

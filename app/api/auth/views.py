@@ -4,7 +4,7 @@ from .schemas import ShowUserSchema
 from app.models.models import User
 
 
-from app.api.services.auth_service import authenticate, get_user
+from app.services.auth_service import authenticate, get_user
 router = APIRouter()
 
 
