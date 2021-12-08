@@ -50,7 +50,7 @@ class OrderService:
         self.order_status_repository.create(OrderStatus(**OrderStatusSchema(id_order,current_status,datetime.now()).__dict__))
 
     def get_discount_value(self, code: str, total_value: float):
-        query = self.coupons_service.query_valid_by_code(code)
+        query = self.coupon_service.query_valid_by_code(code)
         if query:
             if query.type == CouponType.VALUE:
                 return query.value
@@ -61,7 +61,7 @@ class OrderService:
     def get_products_value(self, products: List[ProductSchema]):
         value: float = 0.00
         for product in products:
-            value += (float(self.products_repository.get_by_id(product.id).price) * product.quantity)
+            value += (float(self.product_repository.get_by_id(product.id).price) * product.quantity)
         return value
 
     def update(self, id:int, order_status:OrderStatus):
@@ -77,7 +77,7 @@ class OrderService:
         return self.addresses_repository.get_by_customer_id(id).id
 
     def get_customer_id(self, id: int):
-        return self.customers_repository.get_by_user_id(id).id
+        return self.customer_repository.get_by_user_id(id).id
 
     def create_order_products(self, id_order: int, products: List[ProductSchema]):
         for product in products:
