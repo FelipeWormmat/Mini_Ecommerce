@@ -15,20 +15,20 @@ from app.services.coupons_service import CouponsService
 from random import randint
 
 class OrderService:
-    def __init__(self, orders_repository: OrderRepository = Depends(),
+    def __init__(self, order_repository: OrderRepository = Depends(),
                 order_product_repository: OrderProductRepository = Depends(),
-                order_statuses_repository : OrderStatusRepository = Depends(),
-                products_repository: ProductRepository = Depends(),
-                customers_repository: CustomerRepository = Depends(),
+                order_status_repository : OrderStatusRepository = Depends(),
+                product_repository: ProductRepository = Depends(),
+                customer_repository: CustomerRepository = Depends(),
                 address_repository: AddressRepository = Depends(),
-                coupons_service: CouponsService = Depends()) -> None:
-        self.orders_repository = orders_repository
+                coupon_service: CouponsService = Depends()) -> None:
+        self.order_repository = order_repository
         self.order_product_repository = order_product_repository
-        self.order_statuses_repository = order_statuses_repository
-        self.products_repository = products_repository
-        self.customers_repository = customers_repository
+        self.order_status_repository = order_status_repository
+        self.product_repository = product_repository
+        self.customer_repository = customer_repository
         self.addresses_repository = address_repository
-        self.coupons_service = coupons_service
+        self.coupon_service = coupon_service
 
     def create(self, input_order_schema: OrderSchema, user: User):
         order_schema = OrderSchema()
@@ -47,7 +47,7 @@ class OrderService:
         self.create_order_products(id_order,input_order_schema.products)
 
     def create_order_status(self, id_order: int, current_status: OrderStatus):
-        self.order_statuses_repository.create(OrderStatus(**OrderStatusSchema(id_order,current_status,datetime.now()).__dict__))
+        self.order_status_repository.create(OrderStatus(**OrderStatusSchema(id_order,current_status,datetime.now()).__dict__))
 
     def get_discount_value(self, code: str, total_value: float):
         query = self.coupons_service.query_valid_by_code(code)
@@ -63,6 +63,10 @@ class OrderService:
         for product in products:
             value += (float(self.products_repository.get_by_id(product.id).price) * product.quantity)
         return value
+
+    def update(self, id:int, order_status:OrderStatus):
+        self.order_repository.update(id,{'status':f'{order_status}'})
+        self.create_order_status(id, order_status)
 
     def validate_address(self, customer_id, address_id):
         query = self.addresses_repository.get_by_id(address_id) 

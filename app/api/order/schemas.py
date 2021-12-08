@@ -4,12 +4,12 @@ from enum import Enum
 from datetime import datetime
 
 class OrderStatus(str, Enum):
+    ORDER_CANCELLED = 'order_cancelled'
+    ORDER_COMPLETED = 'order_completed'
+    ORDER_RECEIVED = 'order_received'
     ORDER_PLACED = 'order_placed'
     ORDER_PAID = 'order_paid'
     ORDER_SHIPPED = 'order_shipped'
-    ORDER_RECEIVED = 'order_received'
-    ORDER_COMPLETED = 'order_completed'
-    ORDER_CANCELLED = 'order_cancelled'
 
 class ProductSchema(BaseModel):
     id: int
@@ -19,10 +19,10 @@ class OrderSchema(BaseModel):
     address_id: int
     payment_form_id: int
     coupon_code: Optional[str]
-    products: List[ProductSchema]
+    product: List[ProductSchema]
 
 class OrderStatusSchema(BaseModel):
-    status:OrderStatus
+    status: OrderStatus
 
 class OrderSchema(BaseModel):
     number: str = ''
