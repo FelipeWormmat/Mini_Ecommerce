@@ -1,9 +1,8 @@
 from fastapi.param_functions import Depends
-from app.api.repositories.adress_repository import AddressRepository
-from app.api.repositories.custumer_repository import CustomerRepository
+from app.repositories.adress_repository import AddressRepository
+from app.repositories.custumer_repository import CustomerRepository
 from app.api.adress.schemas import AdressSchema
 from fastapi import HTTPException, status
-
 from app.models.models import Address
 
 class AddressService:

@@ -5,7 +5,7 @@ import jwt
 import bcrypt
 from jwt.exceptions import ExpiredSignatureError
 
-from app.api.repositories.user_repository import UserRepository
+from app.repositories.user_repository import UserRepository
 
 
 oauth_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')

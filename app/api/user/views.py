@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.param_functions import Depends
 from .schemas import UserSchema
 from app.models.models import User
-from app.api.repositories.user_repository import UserRepository
+from app.repositories.user_repository import UserRepository
 import bcrypt
 
 router = APIRouter()

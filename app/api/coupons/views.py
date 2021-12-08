@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status
 from fastapi.param_functions import Depends
 
-from app.api.repositories.coupons_repository import CouponsRepository
+from app.repositories.coupons_repository import CouponsRepository
 from app.api.coupons.schemas import CouponsSchema, ShowCouponsSchema, UpdateCouponsSchema
 from app.services.coupons_service import CouponsService
 from app.models.models import Coupons
