@@ -41,8 +41,8 @@ class OrderService:
         order_schema.total_value = self.get_products_value(input_order_schema.products)
         order_schema.total_discount = self.get_discount_value(input_order_schema.coupon_code, order_schema.total_value)
         self.validate_address(order_schema.customer_id, order_schema.address_id)
-        self.orders_repository.create(Order(**order_schema.dict()))
-        id_order = self.orders_repository.get_by_number(order_schema.number).id
+        self.order_repository.create(Order(**order_schema.dict()))
+        id_order = self.order_repository.get_by_number(order_schema.number).id
         self.create_order_status(id_order,OrderStatus.ORDER_PLACED)
         self.create_order_products(id_order,input_order_schema.products)
 
