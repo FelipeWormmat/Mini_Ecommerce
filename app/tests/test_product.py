@@ -20,6 +20,8 @@ def test_product_create(client: TestClient, category_factory, supplier_factory, 
     assert response.json()['category_id'] == category.id
     assert response.json()['supplier_id'] == supplier.id
 
+
+
 def test_product_show(client: TestClient, category_factory, supplier_factory, admin_auth_header):
     category = category_factory()
     supplier = supplier_factory()

@@ -47,7 +47,7 @@ def user_factory(db_session):
         display_name = factory.Faker('name')
         email = factory.Faker('email')
         role = None
-        password = '$2b$12$2F.MmED.HUKwVq74djSzguVYu4HBYEkKYNqxRnc/.uuSR' 
+        password = '' 
 
     return UserFactory
 

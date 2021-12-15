@@ -24,3 +24,15 @@ def test_category_update(client: TestClient):
 
     #response = client.get('/categories/1')
     #assert response.json()['name'] == 'Categoria alterada'
+
+def test_category_delete(client: TestClient):
+    response = client.post('/categories/', json={
+        'name': 'Categoria 1'
+    })
+    assert response.status_code == 201
+
+    response = client.delete(
+        '/categories/1')
+
+    assert response.status_code == 200
+    assert response.json()['id'] == None
