@@ -1,10 +1,14 @@
+import re
+from _pytest.python import Module
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+import sqlalchemy.orm
 from sqlalchemy.orm import sessionmaker
 from app.db.db import get_db
-from app.models.models import Base
+from app.models.models import Base, Category, PaymentMethods, Product, ProductDiscount, User, Supplier
 from app.app import app
 import pytest
+import factory
 
 
 @pytest.fixture()
@@ -31,3 +35,107 @@ def client(override_get_db):
     app.dependency_overrides[get_db] = override_get_db
     client = TestClient(app)
     return client
+
+
+@pytest.fixture()
+def user_factory(db_session):
+    class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
+        class Meta:
+            model = User
+            sqlalchemy_session = db_session
+
+        id = None
+        display_name = factory.Faker('name')
+        email = factory.Faker('email')
+        role = None
+        password = '$2b$12$2F.MmED.HUKwVq74djSzguVYu4HBYEkKYNqxRnc/.gVG24QyYcC9m'
+
+    return UserFactory
+
+@pytest.fixture()
+def category_test(db_session):
+    class Category_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: Category
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        name = factory.Faker('name')
+
+    return Category_Test
+
+
+@pytest.fixture()
+def payment_test(db_session):
+    class Payment_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: PaymentMethods
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        name = factory.Faker('name')
+        enabled = factory.Faker('bool')
+
+    return Payment_Test
+
+@pytest.fixture()
+def product_discount_test(db_session):
+    class Product_Discount_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: ProductDiscount
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        name = factory.Faker('name')
+        value = factory.Faker('pyfloat')
+        product =  factory.SubFactory('')
+        payment_method =  factory.SubFactory('')
+
+    return Product_Discount_Test
+
+@pytest.fixture()
+def user_admin_token(user_factory):
+    user_factory(role='admin')
+
+    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNjY1NDIwODc0fQ.o_syoOwrg8VOvl5nWYnA0waXxL0pFLdUgJY8HoqMVjM'
+
+
+@pytest.fixture()
+def admin_auth_header(user_admin_token):
+    return {'Authorization': f'Bearer {user_admin_token}'}
+
+@pytest.fixture()
+def Product_test(db_session):
+    class Product_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: Product
+            sqlalchemy_session = db_session
+
+            id = factory.Faker('pyint')
+            description =  factory.Faker('name')
+            price = factory.Faker('pyfloat')
+            technical_details = factory.Faker('name')
+            image  = factory.Faker('name')
+            visible = factory.Faker('pybool')
+            category =  factory.SubFactory('')
+            supplier = factory.SubFactory('')
+
+
+    return Product_Test
+
+
+@pytest.fixture()
+def Supplier_test(db_session):
+    class Supplier_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: Category
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        name = factory.Faker('name')
+
+    return Supplier_Test
