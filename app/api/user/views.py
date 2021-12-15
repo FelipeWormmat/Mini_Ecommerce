@@ -10,6 +10,5 @@ router = APIRouter()
 
 @router.post('/')
 def create(user: UserSchema, repository: UserRepository = Depends()):
-    user.password = bcrypt.hashpw(
-        user.password.encode('utf8'), bcrypt.gensalt())
+    user.password = bcrypt.hashpw(user.password.encode('utf8'), bcrypt.gensalt()) # encriptando a senha
     repository.create(User(**user.dict()))

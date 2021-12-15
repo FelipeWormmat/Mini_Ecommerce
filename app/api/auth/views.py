@@ -2,8 +2,6 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi.param_functions import Depends
 from .schemas import ShowUserSchema
 from app.models.models import User
-
-
 from app.services.auth_service import authenticate, get_user
 router = APIRouter()
 

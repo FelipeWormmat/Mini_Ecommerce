@@ -1,14 +1,13 @@
-import re
-from _pytest.python import Module
+from os import name
+import pytest
 from fastapi.testclient import TestClient
+import factory
 from sqlalchemy import create_engine
-import sqlalchemy.orm
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from app.db.db import get_db
-from app.models.models import Base, Category, PaymentMethods, Product, ProductDiscount, User, Supplier
+from app.models.models import Base, Category, Customer, PaymentMethods, Product, User, Supplier, ProductDiscount
 from app.app import app
-import pytest
-import factory
 
 
 @pytest.fixture()
@@ -48,7 +47,7 @@ def user_factory(db_session):
         display_name = factory.Faker('name')
         email = factory.Faker('email')
         role = None
-        password = '$2b$12$2F.MmED.HUKwVq74djSzguVYu4HBYEkKYNqxRnc/.gVG24QyYcC9m'
+        password = '$2b$12$2F.MmED.HUKwVq74djSzguVYu4HBYEkKYNqxRnc/.uuSR' 
 
     return UserFactory
 
@@ -68,8 +67,8 @@ def adress_test(db_session):
         zipcode = factory.faker('name')
         neighbourhood = factory.faker('name')
         primary = factory.faker('name')
-        customer_id = customer.id
-        customer = factory.faker('')
+        customer_id = factory.faker('name')
+        customer = factory.faker('customer.id')
 
 
     return Adress_Test
@@ -113,13 +112,13 @@ def product_discount_test(db_session):
         id = factory.Faker('pyint')
         name = factory.Faker('name')
         value = factory.Faker('pyfloat')
-        product =  factory.SubFactory('')
-        payment_method =  factory.SubFactory('')
+        product =  factory.SubFactory(product_test)
+        payment_method =  factory.SubFactory(payment_test)
 
     return Product_Discount_Test
 
 @pytest.fixture()
-def Product_test(db_session):
+def product_test(db_session):
     class Product_Test(factory.alchemy.SQLAlchemyModelFactory):
         class Test:
             model: Product
@@ -131,18 +130,18 @@ def Product_test(db_session):
             technical_details = factory.Faker('name')
             image  = factory.Faker('name')
             visible = True
-            category =  category.id
-            supplier = supplier.id
+            category =  factory.SubFactory(category_test)
+            supplier = factory.SubFactory(supplier_test)
 
 
     return Product_Test
 
 
 @pytest.fixture()
-def Supplier_test(db_session):
+def supplier_test(db_session):
     class Supplier_Test(factory.alchemy.SQLAlchemyModelFactory):
         class Test:
-            model: Category
+            model: Supplier
             sqlalchemy_session = db_session
 
 
@@ -150,6 +149,25 @@ def Supplier_test(db_session):
         name = factory.Faker('name')
 
     return Supplier_Test
+
+@pytest.fixture()
+def costumer_test(db_session):
+    class Customer_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: Customer
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        name = factory.Faker('name')
+        first_name = factory.faker('name')
+        last_name = factory.faker('name')
+        phone_number = factory.faker('?')
+        genre = factory.faker('?')
+        document_id = factory.faker('?')
+        birth_date = factory.faker('pyfloat')
+
+    return Customer_Test
 
 
 @pytest.fixture()
