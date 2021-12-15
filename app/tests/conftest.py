@@ -53,6 +53,28 @@ def user_factory(db_session):
     return UserFactory
 
 @pytest.fixture()
+def adress_test(db_session):
+    class Adress_Test(factory.alchemy.SQLAlchemyModelFactory):
+        class Test:
+            model: Category
+            sqlalchemy_session = db_session
+
+
+        id = factory.Faker('pyint')
+        address = factory.Faker('name')
+        city = factory.faker('name')
+        state = factory.faker('name')
+        number = factory.faker('name')
+        zipcode = factory.faker('name')
+        neighbourhood = factory.faker('name')
+        primary = factory.faker('name')
+        customer_id = customer.id
+        customer = factory.faker('')
+
+
+    return Adress_Test
+
+@pytest.fixture()
 def category_test(db_session):
     class Category_Test(factory.alchemy.SQLAlchemyModelFactory):
         class Test:
@@ -76,7 +98,7 @@ def payment_test(db_session):
 
         id = factory.Faker('pyint')
         name = factory.Faker('name')
-        enabled = factory.Faker('bool')
+        enabled = True
 
     return Payment_Test
 
@@ -97,17 +119,6 @@ def product_discount_test(db_session):
     return Product_Discount_Test
 
 @pytest.fixture()
-def user_admin_token(user_factory):
-    user_factory(role='admin')
-
-    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNjY1NDIwODc0fQ.o_syoOwrg8VOvl5nWYnA0waXxL0pFLdUgJY8HoqMVjM'
-
-
-@pytest.fixture()
-def admin_auth_header(user_admin_token):
-    return {'Authorization': f'Bearer {user_admin_token}'}
-
-@pytest.fixture()
 def Product_test(db_session):
     class Product_Test(factory.alchemy.SQLAlchemyModelFactory):
         class Test:
@@ -119,9 +130,9 @@ def Product_test(db_session):
             price = factory.Faker('pyfloat')
             technical_details = factory.Faker('name')
             image  = factory.Faker('name')
-            visible = factory.Faker('pybool')
-            category =  factory.SubFactory('')
-            supplier = factory.SubFactory('')
+            visible = True
+            category =  category.id
+            supplier = supplier.id
 
 
     return Product_Test
@@ -139,3 +150,15 @@ def Supplier_test(db_session):
         name = factory.Faker('name')
 
     return Supplier_Test
+
+
+@pytest.fixture()
+def user_admin_token(user_factory):
+    user_factory(role='admin')
+
+    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNjY1NDIwODc0fQ.o_syoOwrg8VOvl5nWYnA0waXxL0pFLdUgJY8HoqMVjM'
+
+
+@pytest.fixture()
+def admin_auth_header(user_admin_token):
+    return {'Authorization': f'Bearer {user_admin_token}'}
