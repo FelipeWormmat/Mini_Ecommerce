@@ -12,6 +12,8 @@ class BaseRepository:
     def create(self, model: Base):
         self.session.add(model)
         self.session.commit()
+        self.session.refresh(model)
+        return model
 
 
     def update(self, id: int, attributes: dict):

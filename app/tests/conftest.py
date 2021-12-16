@@ -47,7 +47,7 @@ def user_factory(db_session):
         display_name = factory.Faker('name')
         email = factory.Faker('email')
         role = None
-        password = '' 
+        password = '$2b$12$rPq8ggNxK5FFJKCdmfcdoeXsL2zr1O9vHGRZI/0zGUSskM2XuZkJu' 
 
     return UserFactory
 
@@ -90,7 +90,7 @@ def category_test(db_session):
 @pytest.fixture()
 def payment_test(db_session):
     class Payment_Test(factory.alchemy.SQLAlchemyModelFactory):
-        class Test:
+        class Meta:
             model: PaymentMethods
             sqlalchemy_session = db_session
 
@@ -104,7 +104,7 @@ def payment_test(db_session):
 @pytest.fixture()
 def product_discount_test(db_session):
     class Product_Discount_Test(factory.alchemy.SQLAlchemyModelFactory):
-        class Test:
+        class Meta:
             model: ProductDiscount
             sqlalchemy_session = db_session
 
@@ -120,7 +120,7 @@ def product_discount_test(db_session):
 @pytest.fixture()
 def product_test(db_session):
     class Product_Test(factory.alchemy.SQLAlchemyModelFactory):
-        class Test:
+        class Meta:
             model: Product
             sqlalchemy_session = db_session
 
@@ -140,7 +140,7 @@ def product_test(db_session):
 @pytest.fixture()
 def supplier_test(db_session):
     class Supplier_Test(factory.alchemy.SQLAlchemyModelFactory):
-        class Test:
+        class Meta:
             model: Supplier
             sqlalchemy_session = db_session
 
@@ -153,7 +153,7 @@ def supplier_test(db_session):
 @pytest.fixture()
 def costumer_test(db_session):
     class Customer_Test(factory.alchemy.SQLAlchemyModelFactory):
-        class Test:
+        class Meta:
             model: Customer
             sqlalchemy_session = db_session
 

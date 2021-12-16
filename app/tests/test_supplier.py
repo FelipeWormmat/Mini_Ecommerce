@@ -1,12 +1,12 @@
 from fastapi.testclient import TestClient
 
 def test_supplier_create(client: TestClient, admin_auth_header):
-    response = client.post('/suppliers/', headers=admin_auth_header, json={
-        'name': 'Fornecedor 1'
-    })
+    response = client.post('/suppliers/',
+                           headers=admin_auth_header,
+                           json={'name': 'LG'})
     assert response.status_code == 201
     assert response.json()['id'] == 1
-
+    
 def test_update(client: TestClient, admin_auth_header):
     client = client.post('/suppliers/', headers=admin_auth_header, json={
         'name': 'Fornecedor 1'
