@@ -6,7 +6,7 @@ from .payment_methods.views import router as payment_methods_router
 from .product_discount.views import router as product_discount_router
 from .coupons.views import router as coupons_router
 from .adress.views import router as adress_router
-from .customers.views import router as customer_router
+from .customers.views import router as customers_router
 from .auth.views import router as auth_router
 from .user.views import router as user_router
 from .admin.views import router as admin_router
@@ -26,7 +26,7 @@ router.include_router(payment_methods_router, prefix='/paymentmethods', tags=['p
 router.include_router(product_discount_router, prefix='/prodcuctdiscounts', tags=['product-discount'])
 router.include_router(coupons_router, prefix='/coupons', tags=['coupons'])
 router.include_router(adress_router, prefix='/adress', tags=['adress'])
-router.include_router(customer_router, prefix='/customer', tags=['customer'])
+router.include_router(customers_router, prefix='/customer', tags=['customer'])
 
 
 router.include_router(seed_router, tags=['seed'])
