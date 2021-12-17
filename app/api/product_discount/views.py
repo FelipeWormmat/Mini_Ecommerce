@@ -8,8 +8,9 @@ from app.api.product_discount.schemas import ProductDiscountSchema, ShowProductD
 from app.db.db import get_db
 from app.models.models import ProductDiscount, PaymentMethods, Product
 from .schemas import ProductDiscountSchema
+from app.services.auth_service import only_admin
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 @router.get('/', response_model=List[ShowProductDiscountSchema])
 def index(db: Session = Depends(get_db)):

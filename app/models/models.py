@@ -1,10 +1,9 @@
-from os import name
-from sqlalchemy import Column
+from fastapi.security import base
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.functions import mode
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Boolean, Float, Integer, String, SmallInteger, DateTime
+from sqlalchemy.sql.sqltypes import Boolean, DateTime, Float, Integer, String
 from app.db.db import Base
+from sqlalchemy import Column
 
 
 class Product(Base):
@@ -38,7 +37,7 @@ class PaymentMethods(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
-    enabled = Column(SmallInteger())
+    enabled = Column(Boolean())
 
 class ProductDiscount(Base):
     __tablename__ = 'productdiscounts'

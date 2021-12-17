@@ -8,7 +8,7 @@ from app.services.auth_service import only_admin
 from app.repositories.user_repository import UserRepository
 from app.services.user_service import UsersService
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 @router.get('/', response_model=List[ShowAdminSchema])
 def index(repository: UserRepository = Depends()):

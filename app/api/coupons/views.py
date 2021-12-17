@@ -6,8 +6,9 @@ from app.repositories.coupons_repository import CouponsRepository
 from app.api.coupons.schemas import CouponsSchema, ShowCouponsSchema, UpdateCouponsSchema
 from app.services.coupons_service import CouponsService
 from app.models.models import Coupons
+from app.services.auth_service import only_admin
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 @router.get('/', response_model=List[ShowCouponsSchema])
 def index(repository: CouponsRepository = Depends()):

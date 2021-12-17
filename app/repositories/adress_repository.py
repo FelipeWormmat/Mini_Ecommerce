@@ -10,6 +10,9 @@ class AddressRepository(BaseRepository):
     def remove_primary(self):
         return self.session.query(self.model).filter_by(primary = True).update({"primary": False})
 
-def delete(self, id):
+    def delete(self, id):   
         self.session.query(self.model).filter_by(id=id).delete()
         self.session.commit()
+        
+    def get_by_customer_id(self, id: int):
+        return self.session.query(self.model).filter_by(customer_id = id, primary=True).first()

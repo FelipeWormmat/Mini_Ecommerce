@@ -5,9 +5,13 @@ from app.api.category.schemas import CategorySchema, ShowCategorySchema
 from sqlalchemy.orm import Session
 from app.db.db import get_db
 from app.models.models import Category
+from app.db.db import get_db
+from app.services.auth_service import only_admin
+from app.repositories.category_repository import CategorieRepository
 
-
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(only_admin)]
+    )
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
